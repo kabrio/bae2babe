@@ -15,34 +15,27 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 import runway
 
-latent_vector_1=0
-latent_vector_2=0
+latent_vector_1 = 0
+latent_vector_2 = 0
 prevIterations = -1
 generated_dlatents = 0
+generator = 0
 
-setup_options = {
-	'checkpoint': runway.file(extension='.pkl'), 
-	'people_vector': runway.file(extension='.npy'),
-	'people_vector2': runway.file(extension='.npy')
-}
 
-@runway.setup(options=setup_options)
+@runway.setup(options={'checkpoint': runway.file(extension='.pkl'), 'image dimensions': runway.number(min=128, max=1024, default=512, step=128)})
 def setup(opts):
+	# Initialize generator and perceptual model
+	global perceptual_model
+	global generator
 	tflib.init_tf()
 	model = opts['checkpoint']
 	print("open model %s" % model)
 	with open(model, 'rb') as file:
 		G, D, Gs = pickle.load(file)
 	Gs.print_layers()
-	# load latent representation
-	p1 = inputs['people_vector']
-	global latent_vector_1
-	latent_vector_1 = np.load(p1)
-	p2 = inputs['people_vector2']
-	global latent_vector_2
-	latent_vector_2 = np.load(p2)
-	global generator
 	generator = Generator(Gs, batch_size=1, randomize_noise=False)
+	perceptual_model = PerceptualModel(opts['image dimensions'], layer=9, batch_size=1)
+	perceptual_model.build_perceptual_model(generator.generated_image)
 	return generator
 
 # def setup(opts):
@@ -123,7 +116,9 @@ def move_and_show(model, inputs):
 	global latent_vector_2
 	global latent_vector_1
 	#latent_vector_1 = latent_vectors[int(inputs['person'])-1]	
-	latent_vector = (latent_vector_1 + latent_vector_2) * 2
+#	latent_vector = (latent_vector_1 + latent_vector_2) * 2
+	latent_vector = latent_vectors[int(inputs['person'])-1]
+
 	# load direction
 	age_direction = np.load('ffhq_dataset/latent_directions/age.npy')
 	direction = age_direction
