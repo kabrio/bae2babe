@@ -100,11 +100,11 @@ def find_in_space(model, inputs):
 	#	np.save(os.path.join(args.dlatent_dir, f'{img_name}.npy'), dlatent)
 
 	#return {'vector': generated_dlatents}
-	print ("returning image")
-	return {'generated': img}
 	generated_dlatents = generator.get_dlatents()
 	s = generated_dlatents.tobytes()
 	s2 = s.hex()
+	print ("returning image")
+	return {'generated': img}
 	#print ("returning text")
 	#return{"hextext": s2}
 

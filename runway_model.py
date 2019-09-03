@@ -98,11 +98,12 @@ def find_in_space(model, inputs):
 		latent_vectors.append(generator.get_dlatents())
 		generator.set_dlatents(latent_vectors[encodeCount])
 		generated_images = generator.generate_images()
+		img = 0
 		for img_array, dlatent, img_name in zip(generated_images, generated_dlatents, names):
 			img = PIL.Image.fromarray(img_array, 'RGB')
 			img.resize((512, 512))
 		
-		print(latent_vectors)
+		# print(latent_vectors)
 		encodeCount += 1
 	return{"image": img}
 
@@ -125,7 +126,7 @@ def move_and_show(model, inputs):
 	global latent_vector_1
 	# latent_vector_1 = np.load("latent_representations/hee.npy")
 #	latent_vector = (latent_vector_1 + latent_vector_2) * 2
-	latent_vector = latent_vectors[int(inputs['person'])-1].copy()
+	latent_vector = latent_vectors[inputs.index('person')].copy()
 
 	# load direction
 	age_direction = np.load('ffhq_dataset/latent_directions/age.npy')
