@@ -2,6 +2,7 @@
 
 import helpers
 import os
+import argparse
 import pickle
 import PIL.Image
 import numpy as np
@@ -9,11 +10,15 @@ import dnnlib
 import dnnlib.tflib as tflib
 import config
 from encoder.generator_model import Generator
+from encoder.perceptual_model import PerceptualModel
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 import runway
 
 latent_vector_1=0
 latent_vector_2=0
+prevIterations = -1
+generated_dlatents = 0
 
 @runway.setup(options={'checkpoint': runway.file(extension='.pkl'), 
 	'people_vector': runway.file(extension='.npy'),
