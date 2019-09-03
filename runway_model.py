@@ -77,7 +77,8 @@ def find_in_space(model, inputs):
 	global generated_dlatents
 	global prevIterations
 	global encodeCount
-	img = 0
+	img = np.zeros([512,512,3],dtype=np.uint8)
+	img.fill(255)
 	s2 = "Did not encode."
 	if (inputs['iterations'] != prevIterations):
 		generator.reset_dlatents()
