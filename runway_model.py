@@ -76,6 +76,7 @@ latent_vectors = []
 def find_in_space(model, inputs):
 	global generated_dlatents
 	global prevIterations
+	global encodeCount
 	s2 = "Did not encode."
 	if (inputs['iterations'] != prevIterations):
 		generator.reset_dlatents()
