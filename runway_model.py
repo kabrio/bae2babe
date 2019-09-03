@@ -117,8 +117,8 @@ def find_in_space(model, inputs):
 cat = runway.category(choices=["1", "2", "3", "4"], default="1")
 
 generate_inputs_2 = {
-	'person 1': cat,
-	'person 2': cat,
+	'person_1': cat,
+	'person_2': cat,
 	'age': runway.number(min=-30, max=30, default=6, step=0.1)
 }
 generate_outputs_2 = {
@@ -130,8 +130,8 @@ def move_and_show(model, inputs):
 	global latent_vector_2
 	global latent_vector_1
 	# latent_vector_1 = np.load("latent_representations/hee.npy")
-	latent_vector_1 = latent_vectors[int(inputs['person 1'])-1].copy()
-	latent_vector_2 = latent_vectors[int(inputs['person 2'])-1].copy()
+	latent_vector_1 = latent_vectors[int(inputs['person_1'])-1].copy()
+	latent_vector_2 = latent_vectors[int(inputs['person_2'])-1].copy()
 	latent_vector = (latent_vector_1 + latent_vector_2) * 2
 	# latent_vector = latent_vectors[int(inputs['person 1'])-1].copy()
 
