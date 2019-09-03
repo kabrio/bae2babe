@@ -123,9 +123,9 @@ cat_2 = runway.category(choices=["1", "2", "3", "4"], default="1")
 generate_inputs_2 = {
 	'person_1': cat_1,
 	'person_2': cat_2,
-	'age': runway.number(min=--10, max=10, default=6, step=0.1),
-	'fine_age': runway.number(min=-1, max=1, default=0, step=0.01),
-	'mix': runway.number(min=0, max=100, default=0, step=1)
+	'age': runway.number(min=-10.0, max=10.0, default=5.0, step=0.1),
+	'fine_age': runway.number(min=-1.0, max=1.0, default=0.0, step=0.01),
+	'mix': runway.number(min=0.0, max=100.0, default=0.0, step=1.0)
 }
 generate_outputs_2 = {
 	'image': runway.image(width=512, height=512)
