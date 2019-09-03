@@ -101,17 +101,20 @@ def find_in_space(model, inputs):
 
 # GENERATION
 
+cat = runway.category(choices=[1, 2, 3, 4], default=1)
+
 generate_inputs_2 = {
-	'age': runway.number(min=-500, max=500, default=6, step=0.1),
+	'vector': cat,
+	'age': runway.number(min=-500, max=500, default=6, step=0.1)
 }
 generate_outputs_2 = {
-	'image': runway.image(width=512, height=512),
+	'image': runway.image(width=512, height=512)
 }
 
 @runway.command('generate', inputs=generate_inputs_2, outputs=generate_outputs_2)
 def move_and_show(model, inputs):
 	global latent_vector_2
-	latent_vector_1 = latent_vectors[0]	
+	latent_vector_1 = latent_vectors[inputs['vector']-1]	
 	latent_vector = (latent_vector_1 + latent_vector_2) * 2
 	# load direction
 	age_direction = np.load('ffhq_dataset/latent_directions/age.npy')
