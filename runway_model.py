@@ -126,7 +126,7 @@ def move_and_show(model, inputs):
 	global latent_vector_1
 	# latent_vector_1 = np.load("latent_representations/hee.npy")
 #	latent_vector = (latent_vector_1 + latent_vector_2) * 2
-	latent_vector = latent_vectors[inputs.index('person')].copy()
+	latent_vector = latent_vectors[int(inputs['person'])-1].copy()
 
 	# load direction
 	age_direction = np.load('ffhq_dataset/latent_directions/age.npy')
