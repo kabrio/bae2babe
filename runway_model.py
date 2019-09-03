@@ -102,7 +102,7 @@ def find_in_space(model, inputs):
 		s2 = "Finished encoding."
 		latent_vectors.append(generator.get_dlatents())
 		print(latent_vectors)
-		encodeCount++
+		encodeCount += 1
 	return{"text": s2}
 
 
