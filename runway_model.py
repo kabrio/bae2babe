@@ -66,7 +66,7 @@ generate_inputs_1 = {
 	'iterations': runway.number(min=1, max=5000, default=10, step=1.0)
 }
 generate_outputs_1 = {
-	"text": runway.text
+	'image': runway.image(width=512, height=512)
 }
 
 encodeCount = 0
@@ -92,12 +92,19 @@ def find_in_space(model, inputs):
 		for loss in pbar:
 			pbar.set_description(' '.join(names)+' Loss: %.2f' % loss)
 		print(' '.join(names), ' loss:', loss)
-		print (encodeCount, " finished encoding.") 
-		s2 = "Finished encoding."
+		print (encodeCount, " finished encoding.") 		
+		# Generate images from found dlatents
+		print ("generating image: ", encodeCount)
 		latent_vectors.append(generator.get_dlatents())
+		generator.set_dlatents(latent_vectors[encodeCount])
+		generated_images = generator.generate_images()
+		for img_array, dlatent, img_name in zip(generated_images, generated_dlatents, names):
+			img = PIL.Image.fromarray(img_array, 'RGB')
+			img.resize((512, 512))
+		
 		print(latent_vectors)
 		encodeCount += 1
-	return{"text": s2}
+	return{"image": img}
 
 
 # GENERATION
@@ -116,7 +123,7 @@ generate_outputs_2 = {
 def move_and_show(model, inputs):
 	global latent_vector_2
 	global latent_vector_1
-	# latent_vector_1 = np.load("latent_representations/j_01.npy")
+	# latent_vector_1 = np.load("latent_representations/hee.npy")
 #	latent_vector = (latent_vector_1 + latent_vector_2) * 2
 	latent_vector = latent_vectors[int(inputs['person'])-1].copy()
 
