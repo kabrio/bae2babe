@@ -133,8 +133,8 @@ generate_outputs_2 = {
 def move_and_show(model, inputs):
 	global latent_vector_2
 	global latent_vector_1
-	latent_vector_1 = np.load("latent_representations/hee.npy")
-	# latent_vector_1 = latent_vectors[int(inputs['person_1'])-1].copy()
+	#latent_vector_1 = np.load("latent_representations/hee.npy")
+	latent_vector_1 = latent_vectors[int(inputs['person_1'])-1].copy()
 	latent_vector_2 = latent_vectors[int(inputs['person_2'])-1].copy()
 	latent_vector = (latent_vector_1 + latent_vector_2) / 2
 	# latent_vector = latent_vectors[int(inputs['person 1'])-1].copy()
