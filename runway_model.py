@@ -123,7 +123,9 @@ cat_2 = runway.category(choices=["1", "2", "3", "4"], default="1")
 generate_inputs_2 = {
 	'person_1': cat_1,
 	'person_2': cat_2,
-	'age': runway.number(min=-30, max=30, default=6, step=0.1)
+	'age': runway.number(min=--10, max=10, default=6, step=0.1),
+	'fine_age': runway.number(min=-1, max=1, default=0, step=0.01),
+	'mix': runway.number(min=0, max=100, default=0, step=1)
 }
 generate_outputs_2 = {
 	'image': runway.image(width=512, height=512)
@@ -136,14 +138,14 @@ def move_and_show(model, inputs):
 	#latent_vector_1 = np.load("latent_representations/hee.npy")
 	latent_vector_1 = latent_vectors[int(inputs['person_1'])-1].copy()
 	latent_vector_2 = latent_vectors[int(inputs['person_2'])-1].copy()
-	latent_vector = (latent_vector_1 + latent_vector_2) / 2
+	latent_vector = (latent_vector_1 * (inputs['mix']/100) + latent_vector_2 * (1.0 - inputs['mix']/100)) / 2
 	# latent_vector = latent_vectors[int(inputs['person 1'])-1].copy()
 
 	# load direction
 	age_direction = np.load('ffhq_dataset/latent_directions/age.npy')
 	direction = age_direction
 	# model = generator
-	coeff = inputs['age']
+	coeff = inputs['age'] + inputs['fine_age']
 	new_latent_vector = latent_vector.copy()
 	new_latent_vector[:8] = (latent_vector + coeff*direction)[:8]
 	image = (generate_image(model, new_latent_vector))
