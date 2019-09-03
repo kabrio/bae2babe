@@ -77,7 +77,7 @@ def find_in_space(model, inputs):
 	global generated_dlatents
 	global prevIterations
 	global encodeCount
-	img = Image.new('RGB', (512, 512), color = 'red')
+	img = PIL.Image.new('RGB', (512, 512), color = 'red')
 	s2 = "Did not encode."
 	if (inputs['iterations'] != prevIterations):
 		if (encodeCount > 3):
