@@ -77,6 +77,7 @@ def find_in_space(model, inputs):
 	global generated_dlatents
 	global prevIterations
 	global encodeCount
+	img = 0
 	s2 = "Did not encode."
 	if (inputs['iterations'] != prevIterations):
 		generator.reset_dlatents()
@@ -98,13 +99,14 @@ def find_in_space(model, inputs):
 		latent_vectors.append(generator.get_dlatents())
 		generator.set_dlatents(latent_vectors[encodeCount])
 		generated_images = generator.generate_images()
-		img = 0
 		for img_array, dlatent, img_name in zip(generated_images, generated_dlatents, names):
 			img = PIL.Image.fromarray(img_array, 'RGB')
 			img.resize((512, 512))
 		
 		# print(latent_vectors)
 		encodeCount += 1
+	else:
+		print(s2)
 	return{"image": img}
 
 
