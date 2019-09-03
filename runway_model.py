@@ -21,6 +21,8 @@ prevIterations = -1
 generated_dlatents = 0
 generator = 0
 
+blank_img = PIL.Image.new('RGB', (512, 512), (127, 0, 127))
+
 
 @runway.setup(options={'checkpoint': runway.file(extension='.pkl'), 'image dimensions': runway.number(min=128, max=1024, default=512, step=128)})
 def setup(opts):
@@ -77,8 +79,6 @@ def find_in_space(model, inputs):
 	global generated_dlatents
 	global prevIterations
 	global encodeCount
-	img = PIL.Image.new('RGB', (512, 512), color = 'red')
-	s2 = "Did not encode."
 	if (inputs['iterations'] != prevIterations):
 		if (encodeCount > 3):
 			encodeCount = 0
@@ -107,9 +107,11 @@ def find_in_space(model, inputs):
 		
 		# print(latent_vectors)
 		encodeCount += 1
+		return{"image": img}
 	else:
-		print(s2)
-	return{"image": img}
+		print("Did not encode.")
+		global blank_img
+		return{"image": blank_img}
 
 
 # GENERATION
