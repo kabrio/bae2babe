@@ -89,7 +89,7 @@ def find_in_space(model, inputs):
 		names = ["looking at you!"]
 		perceptual_model.set_reference_images(inputs['portrait'])
 		print ("image loaded.")
-		print ("encoding for: ", prevIterations, " iterations.")
+		print ("encoding #", encodeCount+1, " for ", prevIterations, " iterations.")
 		op = perceptual_model.optimize(generator.dlatent_variable, iterations=inputs['iterations'], learning_rate=1.)
 		# load latent vectors	
 		generated_dlatents = generator.get_dlatents()
@@ -124,9 +124,11 @@ cat_2 = runway.category(choices=["1", "2", "3", "4"], default="1")
 generate_inputs_2 = {
 	'person_1': cat_1,
 	'person_2': cat_2,
+	'mix': runway.number(min=0.0, max=100.0, default=50.0, step=1.0)
 	'age': runway.number(min=-10.0, max=10.0, default=5.0, step=0.1),
 	'fine_age': runway.number(min=-1.0, max=1.0, default=0.0, step=0.01),
-	'mix': runway.number(min=0.0, max=100.0, default=0.0, step=1.0)
+	'smile': runway.number(min=-10.0, max=10.0, default=0, step=0.1),
+	'gender': runway.number(min=-10.0, max=10.0, default=0, step=0.1)
 }
 generate_outputs_2 = {
 	'image': runway.image(width=512, height=512)
@@ -139,16 +141,19 @@ def move_and_show(model, inputs):
 	#latent_vector_1 = np.load("latent_representations/hee.npy")
 	latent_vector_1 = latent_vectors[int(inputs['person_1'])-1].copy()
 	latent_vector_2 = latent_vectors[int(inputs['person_2'])-1].copy()
-	latent_vector = (latent_vector_1 * (inputs['mix']/100) + latent_vector_2 * (1.0 - inputs['mix']/100)) / 2
+	latent_vector = (latent_vector_2 * (inputs['mix']/100) + latent_vector_1 * (1.0 - inputs['mix']/100)) / 2
 	# latent_vector = latent_vectors[int(inputs['person 1'])-1].copy()
 
 	# load direction
-	age_direction = np.load('ffhq_dataset/latent_directions/age.npy')
-	direction = age_direction
+	age_dir = np.load('ffhq_dataset/latent_directions/age.npy')
+	smile_dir = np.load('ffhq_dataset/latent_directions/smile.npy')
+	gender_dir = np.load('ffhq_dataset/latent_directions/gender.npy')
 	# model = generator
 	coeff = inputs['age'] + inputs['fine_age']
+	smile_c = inputs['smile']
+	gender_c = inputs['gender']
 	new_latent_vector = latent_vector.copy()
-	new_latent_vector[:8] = (latent_vector + coeff*direction)[:8]
+	new_latent_vector[:8] = (latent_vector + coeff*age_dir + smile_c*smile_dir + gender_c*gender_dir)[:8]
 	image = (generate_image(model, new_latent_vector))
 	#ax[i].set_title('Coeff: %0.1f' % coeff)
 	#plt.show()
