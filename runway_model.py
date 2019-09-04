@@ -79,14 +79,16 @@ def find_in_space(model, inputs):
 	global generated_dlatents
 	global prevIterations
 	global encodeCount
+	global blank_img
+	image = blank_img
 	if (inputs['iterations'] != prevIterations):
+		prevIterations = inputs['iterations']
 		if (encodeCount > 3):
 			encodeCount = 0
 		generator.reset_dlatents()
 		names = ["looking at you!"]
 		perceptual_model.set_reference_images(inputs['portrait'])
 		print ("image loaded.")
-		prevIterations = inputs['iterations']
 		print ("encoding for: ", prevIterations, " iterations.")
 		op = perceptual_model.optimize(generator.dlatent_variable, iterations=inputs['iterations'], learning_rate=1.)
 		# load latent vectors	
@@ -95,24 +97,23 @@ def find_in_space(model, inputs):
 		for loss in pbar:
 			pbar.set_description(' '.join(names)+' Loss: %.2f' % loss)
 		print(' '.join(names), ' loss:', loss)
-		print (encodeCount, " finished encoding.") 		
+		print ("finished encoding: ", encodeCount+1) 		
 		# Generate images from found dlatents
-		print ("generating image: ", encodeCount)
+		print ("generating image: ", encodeCount+1)
 		latent_vectors.append(generator.get_dlatents())
-		generator.set_dlatents(latent_vectors[encodeCount])
-		generated_images = generator.generate_images()
-		for img_array, dlatent, img_name in zip(generated_images, generated_dlatents, names):
-			img = PIL.Image.fromarray(img_array, 'RGB')
-			img.resize((512, 512))
+		image = generate_image(generator, latent_vectors[encodeCount])
+		# generator.set_dlatents(latent_vectors[encodeCount])
+		# generated_images = generator.generate_images()
+		# for img_array, dlatent, img_name in zip(generated_images, generated_dlatents, names):
+		# 	img = PIL.Image.fromarray(img_array, 'RGB')
+		# 	img.resize((512, 512))
 		
 		# print(latent_vectors)
 		encodeCount += 1
-		return{"image": img}
 	else:
-		print("Did not encode.")
-		global blank_img
-		return{"image": blank_img}
+		print("Did not encode.")		
 
+	return{"image": image}
 
 # GENERATION
 
