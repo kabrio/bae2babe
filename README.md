@@ -24,7 +24,7 @@ Switch between those two using the "Command" dropdown menu.
 In this section an encoder will search for your uploaded faces in the latent space of StyleGAN.
 You need to upload an image of somebodies face using Runways UI (File input)
 
-The image has to be square and **exactly 512x512** pixels in size!
+The image has to be **exactly 512x512** pixels in size!
 
 Use the iteration slider to set the amount of time the model will spend on analyzing your image.
 **The process will start as soon as you move the slider or change the number in the box.
