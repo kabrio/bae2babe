@@ -2,7 +2,7 @@
 ## Machine Learning Generated Babies 
 
 By mixing two peoples latent vectors and then do age transformation using StyleGan 
-Based on [http://github.com/Puzer/stylegan-encoder] & 
+Based on [http://github.com/Puzer/stylegan-encoder] & [https://colab.research.google.com/drive/139OhnW0O_3-4IrnUCXRkO9nJn38qcdsi]
 
 ## How to install
 
