@@ -87,7 +87,7 @@ def find_in_space(model, inputs):
 	global blank_img
 	image = blank_img
 	if (inputs['iterations'] != prevIterations and inputs['encode']):
-		prevIterations = inputs['iterations']
+		prevIterations = inputs['iterations'].copy
 		if (encodeCount > 3):
 			encodeCount = 0
 		generator.reset_dlatents()
