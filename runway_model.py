@@ -15,8 +15,8 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 import runway
 
-latent_vector_1 = 0
-latent_vector_2 = 0
+latent_vector_1 = np.load("ffhq_dataset/latent_representations/hillary_clinton_01.npy")
+latent_vector_2 = np.load("ffhq_dataset/latent_representations/donald_trump_01.npy")
 prevIterations = -1
 generated_dlatents = 0
 generator = 0
