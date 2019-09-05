@@ -13,6 +13,7 @@ See how this works here [https://learn.runwayml.com/#/how-to/import-models]
 There are two sections
 * Encode
 * Generate
+
 Switch between those two using the "Command" dropdown menu.
 
 ### Encode
