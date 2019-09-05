@@ -15,8 +15,8 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 import runway
 
-latent_vector_1 = np.load("ffhq_dataset/latent_representations/hillary_clinton_01.npy")
-latent_vector_2 = np.load("ffhq_dataset/latent_representations/donald_trump_01.npy")
+preLoad1 = np.load("ffhq_dataset/latent_representations/hillary_clinton_01.npy")
+preLoad2 = np.load("ffhq_dataset/latent_representations/donald_trump_01.npy")
 prevIterations = -1
 generated_dlatents = 0
 generator = 0
@@ -66,7 +66,7 @@ def generate_image(generator, latent_vector):
 generate_inputs_1 = {
 	'portrait': runway.image(),
 	'iterations': runway.number(min=1, max=5000, default=10, step=1.0),
-	'encode': boolean(default=False)
+	'encode': runway.boolean(default=False)
 }
 generate_outputs_1 = {
 	'image': runway.image(width=512, height=512)
@@ -74,6 +74,10 @@ generate_outputs_1 = {
 
 encodeCount = 0
 latent_vectors = []
+latent_vectors.append(preLoad1)
+latent_vectors.append(preLoad2)
+latent_vectors.append(preLoad1)
+latent_vectors.append(preLoad2)
 
 @runway.command('encode', inputs=generate_inputs_1, outputs=generate_outputs_1)
 def find_in_space(model, inputs):
@@ -82,7 +86,7 @@ def find_in_space(model, inputs):
 	global encodeCount
 	global blank_img
 	image = blank_img
-	if (inputs['iterations'] != prevIterations && inputs['encode']):
+	if (inputs['iterations'] != prevIterations and inputs['encode']):
 		prevIterations = inputs['iterations']
 		if (encodeCount > 3):
 			encodeCount = 0
