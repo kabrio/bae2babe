@@ -114,6 +114,7 @@ def find_in_space(model, inputs):
 		# 	img.resize((512, 512))
 		
 		# print(latent_vectors)
+		inputs['encode'] = False
 		encodeCount += 1
 	else:
 		print("Did not encode.")		
