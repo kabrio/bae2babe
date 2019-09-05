@@ -124,7 +124,7 @@ cat_2 = runway.category(choices=["1", "2", "3", "4"], default="1")
 generate_inputs_2 = {
 	'person_1': cat_1,
 	'person_2': cat_2,
-	'mix': runway.number(min=0.0, max=100.0, default=50.0, step=1.0)
+	'mix': runway.number(min=0.0, max=100.0, default=50.0, step=1.0),
 	'age': runway.number(min=-10.0, max=10.0, default=5.0, step=0.1),
 	'fine_age': runway.number(min=-1.0, max=1.0, default=0.0, step=0.01),
 	'smile': runway.number(min=-10.0, max=10.0, default=0, step=0.1),
