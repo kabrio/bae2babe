@@ -65,7 +65,8 @@ def generate_image(generator, latent_vector):
 
 generate_inputs_1 = {
 	'portrait': runway.image(),
-	'iterations': runway.number(min=1, max=5000, default=10, step=1.0)
+	'iterations': runway.number(min=1, max=5000, default=10, step=1.0),
+	'encode': boolean(default=False)
 }
 generate_outputs_1 = {
 	'image': runway.image(width=512, height=512)
@@ -81,7 +82,7 @@ def find_in_space(model, inputs):
 	global encodeCount
 	global blank_img
 	image = blank_img
-	if (inputs['iterations'] != prevIterations):
+	if (inputs['iterations'] != prevIterations && inputs['encode']):
 		prevIterations = inputs['iterations']
 		if (encodeCount > 3):
 			encodeCount = 0
@@ -136,6 +137,7 @@ generate_outputs_2 = {
 
 @runway.command('generate', inputs=generate_inputs_2, outputs=generate_outputs_2)
 def move_and_show(model, inputs):
+	print("mixing")
 	global latent_vector_2
 	global latent_vector_1
 	#latent_vector_1 = np.load("latent_representations/hee.npy")
