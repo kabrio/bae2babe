@@ -134,8 +134,9 @@ generate_inputs_2 = {
 	'mix': runway.number(min=0.0, max=100.0, default=50.0, step=1.0),
 	'age': runway.number(min=-10.0, max=10.0, default=5.0, step=0.1),
 	'fine_age': runway.number(min=-1.0, max=1.0, default=0.0, step=0.01),
-	'smile': runway.number(min=-10.0, max=10.0, default=0, step=0.1),
-	'gender': runway.number(min=-10.0, max=10.0, default=0, step=0.1)
+	'smile': runway.number(min=-5.0, max=5.0, default=0, step=0.1),
+	'gender': runway.number(min=-5.0, max=5.0, default=0, step=0.1),
+	'glitch': runway.number(min=-4.0, max=4.0, default=0, step=0.1)
 }
 generate_outputs_2 = {
 	'image': runway.image(width=512, height=512)
@@ -161,7 +162,7 @@ def move_and_show(model, inputs):
 	smile_c = inputs['smile']
 	gender_c = inputs['gender']
 	new_latent_vector = latent_vector.copy()
-	new_latent_vector[:8] = (latent_vector + coeff*age_dir + smile_c*smile_dir + gender_c*gender_dir)[:8]
+	new_latent_vector[:8] = (latent_vector + coeff*age_dir + (smile_c*smile_dir + gender_c*gender_dir) * inputs['glitch'])[:8]
 	image = (generate_image(model, new_latent_vector))
 	#ax[i].set_title('Coeff: %0.1f' % coeff)
 	#plt.show()
