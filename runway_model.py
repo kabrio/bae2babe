@@ -15,8 +15,8 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 import runway
 
-preLoad1 = np.load("ffhq_dataset/latent_representations/hillary_clinton_01.npy")
-preLoad2 = np.load("ffhq_dataset/latent_representations/donald_trump_01.npy")
+# preLoad1 = np.load("ffhq_dataset/latent_representations/hillary_clinton_01.npy")
+# preLoad2 = np.load("ffhq_dataset/latent_representations/donald_trump_01.npy")
 prevIterations = -1
 generated_dlatents = 0
 generator = 0
@@ -74,10 +74,10 @@ generate_outputs_1 = {
 
 encodeCount = 0
 latent_vectors = []
-latent_vectors.append(preLoad1)
-latent_vectors.append(preLoad2)
-latent_vectors.append(preLoad1)
-latent_vectors.append(preLoad2)
+# latent_vectors.append(preLoad1)
+# latent_vectors.append(preLoad2)
+# latent_vectors.append(preLoad1)
+# latent_vectors.append(preLoad2)
 
 @runway.command('encode', inputs=generate_inputs_1, outputs=generate_outputs_1)
 def find_in_space(model, inputs):
@@ -105,7 +105,8 @@ def find_in_space(model, inputs):
 		print ("finished encoding: ", encodeCount+1) 		
 		# Generate images from found dlatents
 		print ("generating image: ", encodeCount+1)
-		latent_vectors[encodeCount] = generator.get_dlatents()
+		# latent_vectors[encodeCount] = generator.get_dlatents()
+		latent_vectors.append(generator.get_dlatents())
 		image = generate_image(generator, latent_vectors[encodeCount])
 		# generator.set_dlatents(latent_vectors[encodeCount])
 		# generated_images = generator.generate_images()
