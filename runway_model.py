@@ -137,7 +137,7 @@ generate_inputs_2 = {
 	'fine_age': runway.number(min=-1.0, max=1.0, default=0.0, step=0.01),
 	'smile': runway.number(min=-5.0, max=5.0, default=0, step=0.1),
 	'gender': runway.number(min=-5.0, max=5.0, default=0, step=0.1),
-	'glitch': runway.number(min=-4.0, max=4.0, default=0, step=0.1)
+	'glitch': runway.number(min=-1.0, max=5.0, default=1.0, step=0.1)
 }
 generate_outputs_2 = {
 	'image': runway.image(width=512, height=512)
