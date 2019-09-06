@@ -24,7 +24,7 @@ generator = 0
 blank_img = PIL.Image.new('RGB', (512, 512), (127, 0, 127))
 
 
-@runway.setup(options={'checkpoint': runway.file(extension='.pkl'), 'image dimensions': runway.number(min=128, max=1024, default=512, step=128)})
+@runway.setup(options={'checkpoint': runway.file(extension='.pkl')})
 def setup(opts):
 	# Initialize generator and perceptual model
 	global perceptual_model
@@ -36,7 +36,7 @@ def setup(opts):
 		G, D, Gs = pickle.load(file)
 	Gs.print_layers()
 	generator = Generator(Gs, batch_size=1, randomize_noise=False)
-	perceptual_model = PerceptualModel(opts['image dimensions'], layer=9, batch_size=1)
+	perceptual_model = PerceptualModel(opts[512], layer=9, batch_size=1)
 	perceptual_model.build_perceptual_model(generator.generated_image)
 	return generator
 
@@ -105,7 +105,7 @@ def find_in_space(model, inputs):
 		print ("finished encoding: ", encodeCount+1) 		
 		# Generate images from found dlatents
 		print ("generating image: ", encodeCount+1)
-		latent_vectors.append(generator.get_dlatents())
+		latent_vectors[encodeCount] = generator.get_dlatents()
 		image = generate_image(generator, latent_vectors[encodeCount])
 		# generator.set_dlatents(latent_vectors[encodeCount])
 		# generated_images = generator.generate_images()
