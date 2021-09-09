@@ -1,4 +1,4 @@
-# Finding your Babies in the latent space of StyleGAN - Runway ML port
+# Find your babies in the latent space of StyleGAN - Runway ML port
 
 Upload and analyze two peoples faces to generate an image of a speculative Baby.
 Works by mixing two peoples latent vectors and then do age transformation using StyleGan. 
